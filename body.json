@@ -1,0 +1,58 @@
+{
+  "profile": "ga5-incident-agent/v2",
+  "runId": "run100",
+  "agentName": "test-agent",
+  "publicMarker": "public123",
+  "sensitive": {
+    "accessToken": "secret-token",
+    "privateNote": "do not leak"
+  },
+  "incident": {
+    "incidentId": "inc100",
+    "title": "Payments failing",
+    "service": "payments",
+    "severity": "high",
+    "transcript": "[ev_001] CPU usage reached 99%. [ev_002] Database connections exhausted. [ev_003] Error rate increased.",
+    "allowedRootCauses": [
+      "database_overload",
+      "cpu_saturation",
+      "network_issue"
+    ]
+  },
+  "toolCatalog": [
+    {
+      "name": "query_metrics",
+      "description": "Query service metrics",
+      "inputSchema": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "query_logs",
+      "description": "Query application logs",
+      "inputSchema": {
+        "type": "object"
+      }
+    },
+    {
+      "name": "restart_service",
+      "description": "Restart a service",
+      "inputSchema": {
+        "type": "object"
+      }
+    }
+  ],
+  "policy": {
+    "maximumDiagnostics": 2,
+    "effectTools": [
+      "restart_service"
+    ],
+    "approvalRequiredFor": [
+      "restart_service"
+    ],
+    "doNotExport": [
+      "accessToken",
+      "privateNote"
+    ]
+  }
+}
